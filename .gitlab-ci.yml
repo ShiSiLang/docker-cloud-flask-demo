@@ -1,0 +1,37 @@
+stages:
+  - style
+  - test
+  - deploy
+  
+pep8:
+  stage: stype
+  script:
+    - pip install tox
+    - tox -e pep8
+  tags:
+    - python2.7
+    
+unittest-py27:
+  stage: test
+  script:
+    - pip install tox
+    - tox -e py27
+  tags:
+    - python2.7
+
+unittest-py34:
+  stage: test
+  script:
+    - pip install tox
+    - tox -e py34
+  tags:
+    - python3.4
+    
+docker-deploy:
+  stage: deploy
+  script:
+    - docker build -t flask-demo .
+    - docker run -d 5000:5000 flask-demo
+  tags:
+  - demo
+    
